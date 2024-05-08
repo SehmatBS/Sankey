@@ -1,68 +1,91 @@
 <html>
-  <head>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        .sankey-link:hover {
+            stroke-opacity: 0.9 !important; /* Increase visibility */
+            stroke: #ff0000 !important; /* Change color to red for high visibility */
+            stroke-width: 5 !important; /* Make the link thicker on hover */
+        }
+    </style>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['sankey']});
-      google.charts.setOnLoadCallback(drawChart);
+        google.charts.load('current', {'packages':['sankey']});
+        google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'From');
-        data.addColumn('string', 'To');
-        data.addColumn('number', 'Weight');
-        data.addRows([
-          [ 'Input Data', 'Resolved', 900 ],
-          [ 'Input Data', 'Unresolved', 100 ],
-          [ 'Unresolved', 'Remediation Output', 100 ],
-          [ 'Resolved', 'Discrepancy', 800 ],
-          [ 'Resolved', 'Congruent', 100 ],
-          [ 'Discrepancy', 'All Other', 350 ],
-          [ 'Discrepancy', 'Entity Input 1', 300 ],
-          [ 'Discrepancy', 'Entity Input 2', 50 ],
-          [ 'Discrepancy', 'Entity Input 1 & 2', 100 ],
-          [ 'All Other', 'Remediation Output', 350 ],
-          [ 'Entity Input 1', 'Substantial Deviation', 50 ],
-          [ 'Entity Input 2', 'Slight Deviation', 50 ],
-          [ 'Entity Input 1 & 2', 'Substantial Deviation', 10 ],
-          [ 'Entity Input 1 & 2', 'Slight Deviation', 90 ],
-          [ 'Entity Input 1', 'Slight Deviation', 250 ],
-          [ 'Substantial Deviation', 'Remediation Output', 60 ],
-          [ 'Slight Deviation', 'Load Candidate Output', 390 ],
-          [ 'Congruent', 'Load Candidate Output', 100 ]
-        ]);
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'From');
+            data.addColumn('string', 'To');
+            data.addColumn('number', 'Weight');
+            data.addRows([
+                [ 'Input Data', 'Resolved', 900 ],
+                [ 'Input Data', 'Unresolved', 100 ],
+                [ 'Unresolved', 'Remediation Output', 100 ],
+                [ 'Resolved', 'Discrepancy', 800 ],
+                [ 'Resolved', 'Congruent', 100 ],
+                [ 'Discrepancy', 'All Other', 350 ],
+                [ 'Discrepancy', 'Entity Input 1', 300 ],
+                [ 'Discrepancy', 'Entity Input 2', 50 ],
+                [ 'Discrepancy', 'Entity Input 1 & 2', 100 ],
+                [ 'All Other', 'Remediation Output', 350 ],
+                [ 'Entity Input 1', 'Substantial Deviation', 50 ],
+                [ 'Entity Input 2', 'Slight Deviation', 50 ],
+                [ 'Entity Input 1 & 2', 'Substantial Deviation', 10 ],
+                [ 'Entity Input 1 & 2', 'Slight Deviation', 90 ],
+                [ 'Entity Input 1', 'Slight Deviation', 250 ],
+                [ 'Substantial Deviation', 'Remediation Output', 60 ],
+                [ 'Slight Deviation', 'Load Candidate Output', 390 ],
+                [ 'Congruent', 'Load Candidate Output', 100 ]
+            ]);
 
-        // Sets chart options.
-        var colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
-                      '#cab2d6', '#ffff99', '#1f78b4', '#33a02c'];
-    
-        var options = {
-          height: 600,
-          sankey: {
-            node: {
-              colors: colors,
-              label: { 
-                fontName: 'Times-Roman',
-                fontSize: 14,
-                color: '#a83232',
-                bold: true,
-                italic: false 
-              },
-              nodePadding: 80
-            },
-            link: {
-              colorMode: 'gradient',
-              colors: colors
-            },
-          }
-        };
+            var colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f',
+                          '#cab2d6', '#ffff99', '#1f78b4', '#33a02c'];
 
-        // Instantiates and draws our chart, passing in some options.
-        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
-        chart.draw(data, options);
-      }
+            var options = {
+                height: 600,
+                sankey: {
+                    node: {
+                        colors: colors,
+                        label: { 
+                            fontName: 'Times-Roman',
+                            fontSize: 14,
+                            color: '#a83232',
+                            bold: true,
+                            italic: false 
+                        },
+                        nodePadding: 80
+                    },
+                    link: {
+                        colorMode: 'gradient',
+                        colors: colors
+                    },
+                }
+            };
+
+            var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+            chart.draw(data, options);
+
+            google.visualization.events.addListener(chart, 'ready', function () {
+                var paths = document.querySelectorAll('#sankey_basic svg path');
+                paths.forEach(function(path) {
+                    path.addEventListener('mouseover', function() {
+                        this.setAttribute('stroke-opacity', '0.9');
+                        this.setAttribute('stroke', '#ff0000');
+                        this.setAttribute('stroke-width', '5');
+                    });
+                    path.addEventListener('mouseout', function() {
+                        this.setAttribute('stroke-opacity', '');
+                        this.setAttribute('stroke', '');
+                        this.setAttribute('stroke-width', '');
+                    });
+                });
+            });
+        }
     </script>
-  </head>
-  <body>
-    <div id="sankey_basic" style="width: 900px; height: 300px;"></div>
-  </body>
+</head>
+<body>
+    <div id="sankey_basic" style="width: 900px; height: 600px;"></div>
+</body>
 </html>
+
