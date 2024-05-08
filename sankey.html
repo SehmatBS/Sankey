@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['sankey']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Weight');
+        data.addRows([
+          [ 'Input Data', 'Resolved', 900 ],
+          [ 'Input Data', 'Unresolved', 100 ],
+          [ 'Unresolved', 'Remediation Output', 100 ],
+          [ 'Resolved', 'Discrepancy', 800 ],
+          [ 'Resolved', 'Congruent', 100 ],
+          [ 'Discrepancy', 'All Other', 350 ]
+          [ 'Discrepancy', 'Entity Input 1', 300 ],
+          [ 'Discrepancy', 'Entity Input 2', 50 ],
+          [ 'Discrepancy', 'Entity Input 1 & 2', 100 ]
+          [ 'All Other', 'Remediation Output', 350 ],
+          [ 'Entity Input 1', 'Substantial Deviation', 50 ],
+          [ 'Entity Input 2', 'Slight Deviation', 50 ],
+          [ 'Entity Input 1 & 2', 'Substantial Deviation', 10 ],
+          [ 'Entity Input 1 & 2', 'Slight Deviation', 90 ],
+          [ 'Entity Input 1', 'Slight Deviation', 250 ],
+          [ 'Substantial Deviation', 'Remediation Output', 60 ],
+          [ 'Slight deviation', 'Load Candidate Output', 390 ]
+          [ 'Congruent', 'Load Candidate Output', 100 ]
+        ]);
+
+        // Sets chart options.
+        var options = {
+          width: 600,
+        };
+
+        // Instantiates and draws our chart, passing in some options.
+        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="sankey_basic" style="width: 900px; height: 300px;"></div>
+  </body>
+</html>
